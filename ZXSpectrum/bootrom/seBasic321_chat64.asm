@@ -74,11 +74,14 @@
 ; Martin Wren-Hilton, Andy Wright, Chris Young, Vladimir Yudin
 
 
+; -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+; CHAT64
 ; September 2026: Changes By Bart Venneker for his Chat64 Bootrom
 ; The chat64 project uses this custom ROM to act as a bootloader.
 ; The bootloader loads a program from an ESP32 into memory
 ; Changes are commented, comments start with "Bart Venneker changed this"
-; https://raw.github.com/bvenneker/CHAT64_C64/ZXSpectrum/bootrom/
+; https://raw.github.com/bvenneker/CHAT64/ZXSpectrum/bootrom/
+; -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 
 ; Definitions
@@ -965,7 +968,7 @@ l0066:                              ; Bart Venneker changed this: for the Chat64
 org $0066                           ; the NMI routine at $0066 is replaced
                                     ; we use $5CB0 as NMI vector to be compatible with the original ROM
                                     ; seBasic uses a different address and reserves $5CB0 for the dosvar variable
-nmi:								; we ignore that and use $5CB0
+nmi:								; we ignore that and reclaim $5CB0 for NMI
   push af
   push bc
   push de
@@ -12338,8 +12341,15 @@ chat64font:
   DB 024 ;    **   
   DB 000 ;   
   ; ----------------             
-  DB $3c,$66,$6e,$6e,$60,$62,$3c,$00         ; @
-  ; ---------------- 
+  DB 060 ;   ***  
+  DB 112 ;  ***   
+  DB 110 ;  ** *** 
+  DB 110 ;  ** *** 
+  DB 096 ;  **     
+  DB 098 ;  **   * 
+  DB 060 ;   **** 
+  DB 000 ;        
+; ---------------- 
   DB 024 ;    **   
   DB 060 ;   ****  
   DB 102 ;  **  ** 
@@ -12610,7 +12620,7 @@ chat64font:
   DB 024 ;    **   
   DB 024 ;    **   
   ; ----------------     
-  DB 000 ;       UNDERSCORE  
+  DB 000 ;   
   DB 000 ;         
   DB 000 ;         
   DB 000 ;         
@@ -12618,8 +12628,6 @@ chat64font:
   DB 000 ;         
   DB 000 ;         
   DB 255 ; ********
-  ; ---------------- 
- 
   ; ---------------- 
   DB 024 ;    **   
   DB 062 ;   ***** 
@@ -12863,8 +12871,15 @@ chat64font:
   DB 048 ;   **    
   DB 126 ;  ****** 
   DB 000 ;   
-; ------------------     
-  DB 28, 24, 24, 112, 112, 24, 24, 28; {
+; ------------------
+  DB 028 ;    ***
+  DB 024 ;    **
+  DB 024 ;    **
+  DB 112 ; ***
+  DB 112 ; ***
+  DB 024 ;    **
+  DB 024 ;    **
+  DB 028 ;    ***
 ; ------------------ 
   DB 024 ;    **   
   DB 024 ;    **   
@@ -12875,9 +12890,30 @@ chat64font:
   DB 024 ;    **   
   DB 024 ;    **   
 ; ------------------ 
-  DB 56, 24, 24, 14, 14, 24, 24, 56; }
+  DB 056 ;   *** 
+  DB 024 ;    **   
+  DB 024 ;    **
+  DB 014 ;      ***
+  DB 014 ;      ***
+  DB 024 ;    **   
+  DB 024 ;    **
+  DB 056 ;   *** 
 ; ------------------ 
-  DB 0, 96, 242, 158, 12, 0, 0, 0  ; ~
+  DB 000 ;
+  DB 096 ;  ** 
+  DB 242 ; ****  **
+  DB 158 ; *  ****
+  DB 012 ;     **
+  DB 000 ;
+  DB 000 ;
+  DB 000 ;
 ; ------------------ 
-  DB %00111100, %01000010,%10011001,%10100001,%10100001,%10011001,%01000010,%00111100
+  DB 060 ;   ****     
+  DB 066 ;  *    *    
+  DB 153 ; *  **  *   
+  DB 161 ; * *    *   
+  DB 161 ; * *    *   
+  DB 153 ; *  **  *   
+  DB 066 ;  *    *    
+  DB 060 ;   ****     
 ; ------------------ 
